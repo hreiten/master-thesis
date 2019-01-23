@@ -4,8 +4,8 @@
 ###
 
 # source global parameters from seperate file
-set DIR (cd (dirname (status -f)); and pwd)
-source "$DIR"/params.fish
+#set DIR ()
+source (dirname (status --current-filename))/params.fish
 
 # if supplied arguments are less than 3, print usage instructions. 
 # else, connect via SSH, source bash script stored there that will 
