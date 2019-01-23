@@ -1,0 +1,363 @@
+Name,Description
+VAL_23-ESDV-92501A-PST:VALUE,PH
+VAL_23-ESDV-92501B-PST:VALUE,PH
+VAL_23-ESDV-92521-PST:VALUE,PH
+VAL_23-ESDV-92551A-PST:VALUE,PH
+VAL_23-ESDV-92551B-PST:VALUE,PH
+VAL_23-FE-9106-39:X.Value,PH 1st Stg Lube Oil Heater Running
+,
+VAL_23-FE-9106-H01:Z.Y.Value,PH 1stStgComp OIL HEATER
+VAL_23-FE-9122-39:X.Value,PH 1st Stg Seal Gas Heater Running
+,
+VAL_23-FE-9122-H01-F:Z.Y.Value,PH 1stStg Seal Gas Heater
+VAL_23-FI-92512A:X.Value,PH 1stStgSuctCool Gas In (Norm)
+VAL_23-FI-92512B:X.Value,PH 1stStgSuctCool Gas In (Std)
+VAL_23-FT-92512:X.Value,PH 1stStgSuctCool Gas In
+VAL_23-FT-92521:X.Value,PH 1stStgSuctScrubber Liq Out
+VAL_23-FT-92537-01:X.Value,PH 1stStgComp Discharge
+VAL_23-FT-96151:X.Value,PH 1stStg Comp Inner Seal DE
+VAL_23-FT-96152:X.Value,PH 1stStg Comp Inner Seal NDE
+VAL_23-FT-96158:X.Value,PH 1stStg Comp Buffer Gas DE
+VAL_23-FT-96159:X.Value,PH 1stStg Comp Buffer Gas NDE
+VAL_23-FZSL-92542:X.Value,PH 1st Stg Comp HGB Closed
+,
+VAL_23-GK-9107A-M01:Z.Y.Value,PH 1stStg Comp Encl Cooling UnitA
+,
+VAL_23-GK-9107B-M01:Z.Y.Value,PH 1stStg Comp Encl Cooling UnitB
+VAL_23-KA-9101-M01-36A:X.Value,PH Common Trip
+VAL_23-KA-9101-M01-39A:X.Value,PH 1st Stg Mtr RUNNING
+VAL_23-KA-9101-M01-39B:X.Value,PH 1st Stage Compressor Motor Running
+VAL_23-KA-9101-M01-62B:X.Value,PH HV SWGR 1stStg Comp Mtr
+,
+,
+,
+,
+,
+,
+,
+VAL_23-KA-9101-M01:Z.Y.Value,PH 1stStg Comp Driving Mtr
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+VAL_23-KA-9101_APE:VALUE,PH (CBM) 1st Stage ActCompr Poly Eff
+VAL_23-KA-9101_APH:VALUE,PH (CBM) 1st Stg ActCompr Poly Head
+VAL_23-KA-9101_APR:VALUE,PH (CBM) 1st Stage ActPress Ratio
+VAL_23-KA-9101_ASP:VALUE,PH (CBM) 1st Stage ActShaft Power
+VAL_23-KA-9101_EPE:VALUE,PH (CBM) 1st Stage ExpCompr Poly Eff
+VAL_23-KA-9101_EPH:VALUE,PH (CBM) 1st Stg ExpCompr Poly Head
+VAL_23-KA-9101_EPR:VALUE,PH (CBM) 1st Stage ExpPress Ratio
+VAL_23-KA-9101_ESP:VALUE,PH (CBM) 1st Stage ExpShaft Power
+VAL_23-KA-9101_PED:VALUE,PH (CBM) 1st Stage Poly Eff Dev
+VAL_23-KA-9101_PHD:VALUE,PH (CBM) 1st Stage Poly Head Dev
+VAL_23-KA-9101_PRD:VALUE,PH (CBM) 1st Stage Press Rat Dev
+VAL_23-KA-9101_SPD:VALUE,PH (CBM) 1st Stage Shft Pwr Dev
+,
+,
+,
+,
+,
+,
+,
+VAL_23-LIC-92521:Z.X.Value,PH 1stStgSuctScrubber Level Measured Value
+VAL_23-LIC-92521:Z.Y.Value,PH 1stStgSuctScrubber Level Output
+VAL_23-LT-92523:Z.X1.Value,PH 1stStgSuctScrubber
+VAL_23-LT-92523:Z.X2.Value,PH 1stStgSuctScrubber
+VAL_23-LT-92529-02:X.Value,PH 1stStgScrub I-face TopLiq
+VAL_23-LT-92529-03:X.Value,PH 1stStgScrub I-face TopFoam
+VAL_23-LT-96182-03:X.Value,PH 1stStg Lube Oil Reservoir
+VAL_23-LT-96182:Z.X1.Value,PH 1st Stg Oil Reservoir
+VAL_23-LT-96182:Z.X2.Value,PH 1st Stg Oil Reservoir
+VAL_23-LV-92521A:Y.Value,PH 1stStgSuctScrubber Level
+VAL_23-LV-92521B:Y.Value,PH 1stStgSuctScrubber Level
+VAL_23-LY-92529_Alarms_PNTA:VALUE,PH (Profiler) Number of Active Tube Alarms
+VAL_23-LY-92529_DensityBands_01gasLL:VALUE,PH (Profiler) Density Band 6 Lower Limit (GAS)
+VAL_23-LY-92529_DensityBands_01gasUL:VALUE,PH (Profiler) Density Band 6 Upper Limit (GAS)
+VAL_23-LY-92529_DensityBands_02foamLL:VALUE,PH (Profiler) Density Band 5 Lower Limit (FOAM)
+VAL_23-LY-92529_DensityBands_02foamUL:VALUE,PH (Profiler) Density Band 5 Upper Limit (FOAM)
+VAL_23-LY-92529_DensityBands_03oilLL:VALUE,PH (Profiler) Density Band 4 Lower Limit (OIL)
+VAL_23-LY-92529_DensityBands_03oilUL:VALUE,PH (Profiler) Density Band 4 Upper Limit (OIL)
+VAL_23-LY-92529_DensityBands_04emulsionLL:VALUE,PH (Profiler) Density Band 3 Lower Limit (EMULSION)
+VAL_23-LY-92529_DensityBands_04emulsionUL:VALUE,PH (Profiler) Density Band 3 Upper Limit (EMULSION)
+VAL_23-LY-92529_DensityBands_05waterLL:VALUE,PH (Profiler) Density Band 2 Lower Limit (WATER)
+VAL_23-LY-92529_DensityBands_05waterUL:VALUE,PH (Profiler) Density Band 2 Upper Limit (WATER)
+VAL_23-LY-92529_DensityBands_06sandLL:VALUE,PH (Profiler) Density Band 1 Lower Limit (SAND)
+VAL_23-LY-92529_DensityBands_06sandUL:VALUE,PH (Profiler) Density Band 1 Upper Limit (SAND)
+VAL_23-LY-92529_NON-SILStatus_Heartbeat:VALUE,PH (Profiler) System Heartbeat/Watchdog
+VAL_23-LY-92529_Outputs_emulsionLevel:VALUE,PH (Profiler) % Scaled Level Output for Level D or Emulsion
+VAL_23-LY-92529_Outputs_foamLevel:VALUE,PH (Profiler) % Scaled Level Output for Level B or Foam
+VAL_23-LY-92529_Outputs_gasLevel:VALUE,PH (Profiler) % Scaled Level Output for Level A or Gas
+VAL_23-LY-92529_Outputs_oilLevel:VALUE,PH (Profiler) % Scaled Level Output for Level C or Oil
+VAL_23-LY-92529_Outputs_sandLevel:VALUE,PH (Profiler) % Scaled Level Output for Level F or Sand
+VAL_23-LY-92529_Outputs_waterLevel:VALUE,PH (Profiler) % Scaled Level Output for Level E or Water
+VAL_23-LY-92529_Setpoints_SP_emulsionHi:VALUE,PH (Profiler) Emulsion deadband high setpoint
+VAL_23-LY-92529_Setpoints_SP_foamHi:VALUE,PH (Profiler) Foam deadband high setpoint
+VAL_23-LY-92529_Setpoints_SP_gasHi:VALUE,PH (Profiler) Gas deadband high setpoint
+VAL_23-LY-92529_Setpoints_SP_oilHi:VALUE,PH (Profiler) Oil deadband high setpoint
+VAL_23-LY-92529_Setpoints_SP_waterHi:VALUE,PH (Profiler) Water deadband high setpoint
+,
+,
+,
+,
+,
+,
+,
+,
+,
+VAL_23-NY-96144-01:VALUE,PH (CBM) Phase A Negative NQN
+VAL_23-NY-96144-02:VALUE,PH (CBM) Phase B Negative NQN
+VAL_23-NY-96144-03:VALUE,PH (CBM) Phase C Negative NQN
+VAL_23-NY-96144-04:VALUE,PH (CBM) Phase A Positive NQN
+VAL_23-NY-96144-05:VALUE,PH (CBM) Phase B Positive NQN
+VAL_23-NY-96144-06:VALUE,PH (CBM) Phase C Positive NQN
+VAL_23-NY-96144-07:VALUE,PH (CBM) Phase A Negative Qmax
+VAL_23-NY-96144-08:VALUE,PH (CBM) Phase B Negative Qmax
+VAL_23-NY-96144-09:VALUE,PH (CBM) Phase C Negative Qmax
+VAL_23-NY-96144-10:VALUE,PH (CBM) Phase A Positive Qmax
+VAL_23-NY-96144-11:VALUE,PH (CBM) Phase B Positive Qmax
+VAL_23-NY-96144-12:VALUE,PH (CBM) Phase C Positive Qmax
+VAL_23-PC-9109-M01-39:X.Value,PH 1st Stg Aux Oil Pump Running
+,
+VAL_23-PC-9109-M01:Z.Y.Value,PH 1stStg Comp Lube Oil Pump
+VAL_23-PDI-96149:X.Value,PH 1st Stg Comp Over Inner Seal
+VAL_23-PDI-96150:X.Value,PH 1st Stg Comp Over Inner Seal
+VAL_23-PDI-96249:X.Value,PH 1st Stg Comp Over Inner Seal
+VAL_23-PDT-92501:X.Value,PH 1stStgSuctCool Gas In ESDV
+VAL_23-PDT-92502:X.Value,PH 1stStgSuctCool Tubes
+VAL_23-PDT-92522:X.Value,PH 1stStgSuctScrubber Gas Out
+VAL_23-PDT-92530:X.Value,PH 1stStgComp Suct Str
+VAL_23-PDT-92534:X.Value,PH 1stStgComp Suction
+VAL_23-PDT-92551:X.Value,PH 1stStgDiscCool Gas Out ESDV
+VAL_23-PDT-92602:X.Value,PH 1st Stg Disch Gas Coolers
+VAL_23-PDT-96143:X.Value,PH 1st Stg Encl Coalesar Filter
+VAL_23-PDT-96146:X.Value,PH 1st Stg Comp Gas Filter
+VAL_23-PDT-96155:X.Value,PH 1st Stg Comp SEP. Gas Filter
+VAL_23-PDT-96161:X.Value,PH 1st Stg Comp Booster Filter
+VAL_23-PDT-96162:X.Value,PH 1st Stg Comp Booster
+VAL_23-PDT-96167:X.Value,PH 1stStg Comp Balance Piston
+VAL_23-PDT-96180:X.Value,PH 1st Stg Lube Oil Filter
+,
+,
+,
+,
+,
+,
+,
+VAL_23-PIC-96153:Z.X.Value,PH 1stStg Comp Inner Seal Measured Value
+VAL_23-PIC-96153:Z.Y.Value,PH 1stStg Comp Inner Seal Output
+VAL_23-PT-92504:X.Value,PH 1stStgSuctCool Gas Out
+VAL_23-PT-92512:X.Value,PH 1stStgSuctCool Gas In
+VAL_23-PT-92521:X.Value,PH 1stStgSuctScrubber
+VAL_23-PT-92523:X.Value,PH 1stStgSuctScrubber
+VAL_23-PT-92532:X.Value,PH 1stStgComp Suction
+VAL_23-PT-92535:X.Value,PH 1stStgComp Suction
+VAL_23-PT-92536:X.Value,PH 1stStgComp Discharge
+VAL_23-PT-92539:X.Value,PH 1stStgComp Discharge
+VAL_23-PT-92540:X.Value,PH 1st Stg Comp Suction
+VAL_23-PT-96149:Z.X1.Value,PH 1st Stage Comp Inner Seal DE
+VAL_23-PT-96149:Z.X2.Value,PH 1st Stage Comp Inner Seal DE
+VAL_23-PT-96150:Z.X1.Value,PH 1st Stg Inner Seal NDE
+VAL_23-PT-96150:Z.X2.Value,PH 1st Stg Inner Seal NDE
+VAL_23-PT-96156:Z.X1.Value,PH 1st Stg Outer Seal DE
+VAL_23-PT-96156:Z.X2.Value,PH 1st Stg Outer Seal DE
+VAL_23-PT-96157:Z.X1.Value,PH 1st Stg Outer Seal NDE
+VAL_23-PT-96157:Z.X2.Value,PH 1st Stg Outer Seal NDE
+VAL_23-PT-96160-03:X.Value,PH 1st Stg Comp Separation Gas
+VAL_23-PT-96160:Z.X1.Value,PH 1st Stg Comp Separation Gas
+VAL_23-PT-96160:Z.X2.Value,PH 1st Stg Comp Separation Gas
+VAL_23-PT-96186-03:X.Value,PH 1st Stg Lube Lube Oil Header
+VAL_23-PT-96186:Z.X1.Value,PH 1st Stg Oil Header
+VAL_23-PT-96186:Z.X2.Value,PH 1st Stg Oil Header
+VAL_23-TE-96137-01:X.Value,PH 1stStg Mtr Cold Air
+VAL_23-TE-96137-02:X.Value,PH 1stStg Mtr Cold Air
+VAL_23-TE-96137-03:X.Value,PH 1stStg Mtr Hot Air
+,
+,
+,
+,
+,
+,
+,
+VAL_23-TIC-92504:Z.X.Value,PH 1stStgSuctCool Gas Out Measured Value
+VAL_23-TIC-92504:Z.Y.Value,PH 1stStgSuctCool Gas Out Output
+,
+,
+,
+,
+,
+,
+,
+VAL_23-TIC-92604:Z.X.Value,PH 1stStgDiscCool Gas Out Measured Value
+VAL_23-TIC-92604:Z.Y.Value,PH 1stStgDiscCool Gas Out Output
+VAL_23-TIC-92604B:Z.X.Value,PH 1stStgDiscCool Gas Out Measured Value
+VAL_23-TIC-92604B:Z.Y.Value,PH 1stStgDiscCool Gas Out Output
+,
+,
+,
+,
+,
+,
+,
+VAL_23-TIC-96147:Z.X.Value,PH 1stStg Comp Seal Gas Measured Value
+VAL_23-TIC-96147:Z.Y.Value,PH 1stStg Comp Seal Gas Output
+,
+,
+,
+,
+,
+,
+,
+VAL_23-TIC-96148:Z.X.Value,PH 1stStg Comp Seal Gas Measured Value
+VAL_23-TIC-96148:Z.Y.Value,PH 1stStg Comp Seal Gas Output
+VAL_23-TT-92502:X.Value,PH 1stStgSuctCool Gas In
+VAL_23-TT-92512:X.Value,PH 1stStgSuctCool Gas In
+VAL_23-TT-92533:X.Value,PH 1stStgComp Suction
+VAL_23-TT-92537:X.Value,PH 1stStgComp Discharge
+VAL_23-TT-92539:X.Value,PH 1stStgComp Discharge
+VAL_23-TT-92602:X.Value,PH 1stStgDiscCool Gas In
+VAL_23-TT-92603:X.Value,PH 1stStgDiscCool Gas Out
+VAL_23-TT-92604A:X.Value,PH 1stStgDiscCool Gas Out Output
+VAL_23-TT-96101-03:Z.X.Value,PH 1stStg Comp Journ BRG DE
+VAL_23-TT-96102-03:Z.X.Value,PH 1stStg Comp Journ BRG NDE
+VAL_23-TT-96103-01:Z.X.Value,PH 1stStg Comp Thrust BRG IN
+VAL_23-TT-96103-03:Z.X.Value,PH 1stStg Comp Thrust BRG IN
+VAL_23-TT-96104-01:Z.X.Value,PH 1stStg Comp Thrust BRG OUT
+VAL_23-TT-96104-03:Z.X.Value,PH 1stStg Comp Thrust BRG OUT
+VAL_23-TT-96111-01:Z.X.Value,PH 1stStg Comp 1 Journ BRG DE
+VAL_23-TT-96111-03:Z.X.Value,PH 1stStg Comp 1 Journ BRG DE
+VAL_23-TT-96112-01:Z.X.Value,PH 1stStg Comp 1 Journ BRG NDE
+VAL_23-TT-96112-03:Z.X.Value,PH 1stStg Comp 1 Journ BRG NDE
+VAL_23-TT-96113-01:Z.X.Value,PH 1stStg Gear2 Journ BRG NDE
+VAL_23-TT-96113-03:Z.X.Value,PH 1stStg Gear2 Journ BRG NDE
+VAL_23-TT-96114-01:Z.X.Value,PH 1stStg Gear2 Journ BRG DE
+VAL_23-TT-96114-03:Z.X.Value,PH 1stStg Gear2 Journ BRG DE
+VAL_23-TT-96115-01:Z.X.Value,PH 1stStg Gear Thrust BRG IN
+VAL_23-TT-96115-03:Z.X.Value,PH 1stStg Gear Thrust BRG IN
+VAL_23-TT-96116-01:Z.X.Value,PH 1stStg Gear Thrust BRG OUT
+VAL_23-TT-96116-03:Z.X.Value,PH 1stStg Gear Thrust BRG OUT
+VAL_23-TT-96131-01:Z.X.Value,PH 1stStg Journ BRG NDE
+VAL_23-TT-96132-01:Z.X.Value,PH 1stStg Journ BRG DE
+VAL_23-TT-96136-02:Z.X.Value,PH 1stStg Mtr Winding U1
+VAL_23-TT-96136-05:Z.X.Value,PH 1stStg Mtr Winding V
+VAL_23-TT-96136-08:Z.X.Value,PH 1stStgMtr Winding W
+VAL_23-TT-96147-02:X.Value,PH 1st Stg Comp Sealgas Heater
+VAL_23-TT-96168:X.Value,PH 1st Stg Comp Inner Seal
+VAL_23-TT-96181-03:X.Value,PH 1stStg Lube Oil System Header
+VAL_23-TT-96181:Z.X1.Value,PH 1st Stg Oil System Header
+VAL_23-TT-96181:Z.X2.Value,PH 1st Stg Oil System Header
+VAL_23-TT-96183:X.Value,PH 1stStg Lube Oil Reservoir
+VAL_23-VA-9110-M01-39:X.Value,PH 1st Stg Oil Seperator Running
+,
+VAL_23-VA-9110-M01:Z.Y.Value,PH 1stStgComp Oil Mist Fan
+VAL_23-XA-96108-A:Z.X.Value,PH 1stStg KEYPH Comp Shaft
+VAL_23-XA-96124-A:Z.X.Value,PH 1stStg KEYPH Gear1 Shaft
+VAL_23-XA-96125-A:Z.X.Value,PH 1stStg KEYPH Gear2 Shaft
+VAL_23-XA-96135-A:Z.X.Value,PH 1stStg KEYPH Mtr Shaft
+VAL_23-YA-96105-01:Z.X.Value,PH 1stStg Comp 1 JournBRG DE
+VAL_23-YA-96105-02:Z.X.Value,PH 1stStg Comp 1 JournBRG DE
+VAL_23-YA-96106-01:Z.X.Value,PH 1stStg Comp1 Journ BRG NDE
+VAL_23-YA-96106-02:Z.X.Value,PH 1stStg Comp1 Journ BRG NDE
+VAL_23-YA-96117-01:Z.X.Value,PH 1stStg Gear1 Journ BRG DE
+VAL_23-YA-96117-02:Z.X.Value,PH 1stStg Gear1 Journ BRG DE
+VAL_23-YA-96118-01:Z.X.Value,PH 1stStg Gear1 Journ BRG NDE
+VAL_23-YA-96118-02:Z.X.Value,PH 1stStg Gear1 Journ BRG NDE
+VAL_23-YA-96119-01:Z.X.Value,PH 1stStg Gear2 Journ BRG NDE
+VAL_23-YA-96119-02:Z.X.Value,PH 1stStg Gear2 Journ BRG NDE
+VAL_23-YA-96120-01:Z.X.Value,PH 1stStg Gear2 Journ BRG DE
+VAL_23-YA-96120-02:Z.X.Value,PH 1stStg Gear2 Journ BRG DE
+VAL_23-YA-96122:Z.X.Value,PH 1stStg Gear1 Velocimeter
+VAL_23-YA-96123:Z.X.Value,PH 1stStg Gear2 Velocimeter
+VAL_23-YZSH-92526-F:X.Value,PH 1st Stg Comp Suct BDV SOV ZSH Flt
+VAL_23-YZSH-92545-F:X.Value,PH 1st Stg Comp Disch BDV SOV ZSH Flt
+VAL_23-YZSL-92526-F:X.Value,PH 1st Stg Comp Suct BDV SOV ZSL Flt
+VAL_23-YZSL-92545-F:X.Value,PH 1st Stg Comp Disch BDV SOV ZSL Flt
+VAL_23-ZA-96107-01:Z.X.Value,PH 1stStg Comp Schaft Axial
+VAL_23-ZA-96107-02:Z.X.Value,PH 1stStg Comp Schaft Axial
+VAL_23-ZA-96107-03:Z.X.Value,PH 1stStg Comp Schaft Axial
+VAL_23-ZA-96121-01:Z.X.Value,PH 1stStg Gear Schaft Axial
+VAL_23-ZA-96121-02:Z.X.Value,PH 1stStg Gear Schaft Axial
+VAL_23-ZA-96121-03:Z.X.Value,PH 1stStg Gear Schaft Axial
+VAL_23-ZS-96142A:X.Value,PH 1stStgComp Encl Door A
+VAL_23-ZS-96142B:X.Value,PH 1stStgComp Encl Door B
+VAL_23_FIC_92543_01:Z.X.Value,PH 1stStgComp AntiSrg Cntrl OP
+VAL_23_FIC_92543_02:Z.X.Value,PH 1stStgComp AntSrg Act CntrlMod 
+VAL_23_FIC_92543_03:Z.X.Value,PH 1stStgComp First AntSrgStat
+VAL_23_FIC_92543_04:Z.X.Value,PH 1stStgComp First AntSrg Dev
+VAL_23_FIC_92543_05:Z.X.Value,PH 1stStgComp First AntSrg CountTot
+VAL_23_FIC_92543_06:Z.X.Value,PH 1stStgComp AntSrg Limit 1 PV
+VAL_23_FIC_92543_07:Z.X.Value,PH 1stStgComp AntSrg Limit 1 SP
+VAL_23_FIC_92543_08:Z.X.Value,PH 1stStgComp AntSrg Limit 2 PV
+VAL_23_FIC_92543_09:Z.X.Value,PH 1stStgComp AntSrg Limit 2 SP
+VAL_23_FIC_92543_11:Z.X.Value,PH Surge Counter
+VAL_23_FT_92537_02:Z.X.Value,PH 1stStgComp Discharge
+VAL_23_FT_92537_03:Z.X.Value,PH 1stStgComp Flow
+VAL_23_KA_9101_M01_60A:Z.X.Value,PH 1stStg Comp Mtr Current
+VAL_23_KA_9101_M01_62C:Z.X.Value,PH 1stStg Comp Mtr Current
+VAL_23_PIC_92538_01:Z.X.Value,PH 1stStgComp STV Perf OP 
+VAL_23_PIC_92538_02:Z.X.Value,PH 1stStgComp STV Perf Act CtrlMod
+VAL_23_PIC_92538_03:Z.X.Value,PH 1stStgComp STV Perf State
+VAL_23_PIC_92538_04:Z.X.Value,PH 1stStgComp STV Perf Prim PV
+VAL_23_PIC_92538_05:Z.X.Value,PH 1stStgComp STV Perf Prim SP
+VAL_23_PIC_92538_06:Z.X.Value,PH 1stStgComp STV Perf Limit 1 PV
+VAL_23_PIC_92538_07:Z.X.Value,PH 1stStgComp Perf Limit 1 SP
+VAL_23_PIC_92538_08:Z.X.Value,PH 1stStgComp STV Perf Limit 2 PV
+VAL_23_PIC_92538_09:Z.X.Value,PH 1stStgComp STV Perf Limit 2 SP
+VAL_23_PIC_92538_12:Z.X.Value,PH Limit Loop 3 Process Variable
+VAL_23_PIC_92538_13:Z.X.Value,PH Limit Loop 3 Set Point
+VAL_23_PT_92531:Z.X.Value,PH 1stStgComp Suction
+VAL_23_PT_92537:Z.X.Value,PH 1stStgComp Discharge
+VAL_23_TT_92532:Z.X.Value,PH 1stStgComp Suction Temp
+VAL_23_TT_92536:Z.X.Value,PH 1stStgComp Discharge Temp
+VAL_23_TT_96101_01:Z.X.Value,PH 1stStg Comp Journ BRG DE
+VAL_23_TT_96102_01:Z.X.Value,PH 1stStg Comp Journ BRG NDE
+VAL_23_TT_96131_02:Z.X.Value,PH 1stStg Journ BRG NDE
+VAL_23_TT_96132_02:Z.X.Value,PH 1stStg Journ BRG DE
+VAL_23_YT_96133_01:Z.X.Value,PH 1stStg MtrJourn BRG NDE
+VAL_23_YT_96133_02:Z.X.Value,PH 1stStg MtrJourn BRG NDE
+VAL_23_YT_96134_01:Z.X.Value,PH 1stStg Mtr Journ BRG DE
+VAL_23_YT_96134_02:Z.X.Value,PH 1stStg Mtr Journ BRG DE
+VAL_23_ZT_92538:Z.X.Value,PH 1stStgComp Valve Position
+VAL_23_ZT_92543:Z.X.Value,PH 1stStgComp Valve Pos
+VAL_45-FT-92139A:X.Value,PH 1stStg Mtr Cooler CW
+VAL_45-FT-92139B:X.Value,PH 1stStg LO Cooler CW
+VAL_45-FT-92506:X.Value,PH 1stStgSuctCool CoolMed In
+VAL_45-FT-92606:X.Value,PH 1stStgDiscCool CoolMed In
+VAL_45-PDT-92506:X.Value,PH 1stStgSuctCool Shell
+VAL_45-PDT-92606:X.Value,PH 1stStgDiscCool CM
+VAL_45-PT-92508:X.Value,PH 1stStgSuctCool CoolMed Out
+VAL_45-PT-92608:X.Value,PH 1stStgDiscCool CM Out
+VAL_45-PT-92609:X.Value,PH 1stStgDiscCool CM Out
+VAL_45-TT-92506:X.Value,PH 1stStgSuctClr CoolMed Sply
+VAL_45-TT-92508:X.Value,PH 1stStgSuctClr CoolMed Out
+VAL_45-TT-92606:X.Value,PH 1stStgDiscClr CoolMed Sply
+VAL_45-TT-92607A:X.Value,PH 1stStgDiscClr CoolMed Out
+VAL_45-TT-92607B:X.Value,PH 1stStgDiscClr CoolMed Out
