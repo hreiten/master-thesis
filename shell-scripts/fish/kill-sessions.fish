@@ -4,8 +4,7 @@
 ###
 
 # source global parameters from params.fish
-set DIR (cd (dirname (status -f)); and pwd)
-source "$DIR"/params.fish
+source (dirname (status --current-filename))/params.fish
 
 if test (count $argv) = 0
   echo "Usage >> source kill-sessions.fish COMPUTERID"
