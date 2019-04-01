@@ -6,10 +6,14 @@ Script that defines helper functions that should be globally available to all no
 
 def RMSE(targets, predictions):
     """
-    Calculates the mean absolute error between vectors/matrices
+    Calculates the root mean squared error between numpy vectors/matrices
     
-    :param targets: a matrix/vector of true targets
-    :param predictions: a matrix/vector of predictions
+    Args: 
+        targets (np.ndarray): A matrix/vector of true targets
+        predictions (np.ndarray): A numpy array of vector predictions
+    
+    Returns: 
+        float: The RMSE score
     """
     return np.sqrt(np.mean(np.square(targets - predictions)))
 
@@ -18,12 +22,13 @@ def MAE(targets, predictions, vector=False):
     """
     Calculates the mean absolute error between vectors/matrices
     
-    :param targets: a matrix/vector of true targets
-    :param predictions: a matrix/vector of predictions
-    :param vector: boolean stating if a vector of MAEs should be returned in the case where the targets/predictions are matrices.
+    Args: 
+        targets (np.ndarray): A matrix/vector of true targets
+        predictions (np.ndarray): A numpy array of vector predictions
+        vector (bool=False): boolean stating if a vector of MAEs should be returned
     """
     if vector:
         return np.mean(np.abs(targets - predictions), axis=0)
     else:
         return np.mean(np.abs(targets - predictions))
-    
+   
