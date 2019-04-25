@@ -1,0 +1,58 @@
+def impute_nan(data, tau=TAU):
+    """
+    Set observations with abs(Z(x))>tau to NaN
+    
+    Args: 
+        data (pandas.DataFrame): data to impute
+        tau (float): threshold value
+    
+    Returns:
+        pandas.DataFrame: the imputed dataset
+    """
+    
+    data_imputed = data.copy()
+    data_means = data.mean().values
+    data_stds = data.std().values
+
+    for col in (range(data.shape[-1])):       
+        # compute z_values for each observation
+        z_values = (data.iloc[:,col] - data_means[col])/data_stds[col]
+        
+        # find idxs exceeding threshold
+        idxs = np.where(np.abs(z_values) > tau)[0]
+        
+        # impute with np.NaN
+        data_imputed.iloc[idxs,col] = np.nan
+    
+    return data_imputed
+
+def impute_cap(data, tau=TAU):
+    """
+    Set observations with abs(Z(x))>tau to capped value (x_new = mu +- std*tau)
+    
+    Args: 
+        data (pandas.DataFrame): data to impute
+        tau (float): threshold value
+        
+    Returns: 
+        pandas.DataFrame: the imputed dataset
+    """
+    data_imputed = data.copy()
+    data_means = data.mean().values
+    data_stds = data.std().values
+    
+    cap_low, cap_high = data_means - data_stds*tau, data_means + data_stds*tau
+    
+    for col in (range(data.shape[-1])):       
+        # compute z_values for each observation
+        z_values = (data.iloc[:,col] - data_means[col])/data_stds[col]
+        
+        # find idxs exceeding threshold
+        idxs_high = np.where(z_values > tau)[0]
+        idxs_low = np.where(z_values < -tau)[0]
+        
+        # impute by capping the values
+        data_imputed.iloc[idxs_high,col] = cap_high[col]
+        data_imputed.iloc[idxs_low,col] = cap_low[col]
+    
+    return data_imputed

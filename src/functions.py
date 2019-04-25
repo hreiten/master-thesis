@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 """
 Script that defines helper functions that should be globally available to all notebooks. 
@@ -31,4 +32,34 @@ def MAE(targets, predictions, vector=False):
         return np.mean(np.abs(targets - predictions), axis=0)
     else:
         return np.mean(np.abs(targets - predictions))
-   
+    
+    
+def get_stats_properties(data, include_nans=True):
+    """
+    Get the statistical properties of a pandas dataframe
+    
+    Args: 
+        data (pandas.DataFrame): Data to analyse properties of
+    
+    Returns:
+        pandas.DataFrame: Dataframe with statistical properties of the input data
+    """
+    dfmeans = data.mean().tolist()
+    dfmedians = data.median().tolist()
+    dfstds = data.std().tolist()
+    dfmaxs = data.max().tolist()
+    dfmins = data.min().tolist()
+    dfdiff_maxmin = np.subtract(dfmaxs,dfmins)
+    dfquantiles = data.quantile([.25,.75])
+    dfq1 = dfquantiles.iloc[0,:].tolist()
+    dfq3 = dfquantiles.iloc[1,:].tolist()
+    
+    stats_matr = [dfmeans,dfmedians,dfstds,dfmaxs,dfmins,dfq1,dfq3]
+    stat_cols = ["Mean", "Median", "Std", "Max", "Min", "1st Qu.", "3rd Qu."]
+    
+    if include_nans:
+        nas = data.isna().sum().tolist()
+        stats_matr.append(nas)
+        stat_cols.append("NAs")
+        
+    return pd.DataFrame(np.array(stats_matr).T, index=data.columns, columns=stat_cols)
