@@ -31,11 +31,11 @@ else
     end
   end
 
-  ssh -X -C $user@$ip "echo -e '\nActive tmux screens:'; tmux ls; jupyter notebook list"
+  sshpass -e ssh -X -C $user@$ip "echo -e '\nActive tmux screens:'; tmux ls; jupyter notebook list"
 
   read_confirm
   if test "$tmp" = 1
-      ssh -X -C $user@$ip "tmux kill-server"
+      sshpass -e ssh -X -C $user@$ip "tmux kill-server"
       echo "Active sessions terminated!"
   end
 end

@@ -15,6 +15,6 @@ if test (count $argv) = 0
 else
   set computerID $argv[1];
   set ip $baseip.$computerID;
-  ssh -X -C $user@$ip;
+  sshpass -e ssh -X -C $user@$ip;
 end
 
