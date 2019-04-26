@@ -63,12 +63,7 @@ Thumbs.db
 # *.png
 ^ISLR.*
 *.pgm
-*.csv
 .vscode
-
-# Secret files
-credentials.py
-.credentials
 
 # Custom folders
 archive/
