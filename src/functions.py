@@ -1,8 +1,5 @@
 import numpy as np
-<<<<<<< HEAD
 import pandas as pd
-=======
->>>>>>> develop
 
 """
 Script that defines helper functions that should be globally available to all notebooks. 
@@ -35,7 +32,6 @@ def MAE(targets, predictions, vector=False):
         return np.mean(np.abs(targets - predictions), axis=0)
     else:
         return np.mean(np.abs(targets - predictions))
-<<<<<<< HEAD
     
     
 def get_stats_properties(data, include_nans=True):
@@ -67,6 +63,3 @@ def get_stats_properties(data, include_nans=True):
         stat_cols.append("NAs")
         
     return pd.DataFrame(np.array(stats_matr).T, index=data.columns, columns=stat_cols)
-=======
-   
->>>>>>> develop

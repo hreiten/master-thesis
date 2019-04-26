@@ -32,14 +32,14 @@ else
     echo -e "Specified tmux name:\t $tmux_name \n"
 
     # call script from ssh that sets up tmux, activates venv and initiates jupyter
-    ssh -X -C $user@$ip "source setup-jupyter-with-tmux.sh -p $port -n $tmux_name"
+    sshpass -e ssh -X -C $user@$ip "source setup-jupyter-with-tmux.sh -p $port -n $tmux_name"
 
     # set up Jupyter tunnel locally
     echo "Setting up Jupyter tunnel at port: $port"
-    ssh -N -f -L $port:localhost:$port $user@$ip
+    sshpass -e ssh -N -f -L $port:localhost:$port $user@$ip
 
     # display Jupyter sessions
     echo -e "\nRetrieving list of active Jupyter sessions..."
-    ssh -X -C $user@$ip "jupyter notebook list; echo -e '\nActive screens on IP $ip:'; tmux ls"
+    sshpass -e ssh -X -C $user@$ip "jupyter notebook list; echo -e '\nActive screens on IP $ip:'; tmux ls"
 end
 
