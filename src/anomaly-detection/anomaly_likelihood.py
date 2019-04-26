@@ -13,7 +13,6 @@ from anomaly_output import AnomalyOutput
 from settings import INPUT_FILE_PATH
 from settings import WINDOW_LENGTH
 from settings import MIN_NUMBER_OF_RESIDUALS
-from settings import DISTRIBUTIONS
 from settings import DEFAULT_BEST_DIST
 from settings import ALPHA
 from settings import UPPER_ANOMALY_THRESHOLD
@@ -43,7 +42,6 @@ class AnomalyDetection():
                 "anomaly score: {}\n".format(round(self.anomaly_scores[-1], 2)) +
                 "mean of res. dist.: {0:.2f}\n".format(np.mean(list(self.moving_average_residuals_window) or 0)) + 
                 "std. of res. dist.: {0:.2f}\n".format(np.std(list(self.moving_average_residuals_window) or 0)) + 
-                "best dist: {}\n".format(str(self.best_dist_string)) +
                 "************************\n"
             )
 
@@ -56,13 +54,13 @@ class AnomalyDetection():
 
     def read_from_file(self):
         data = pd.read_csv(INPUT_FILE_PATH, sep = '\t')
-        self.predicted = data.loc[data['key'] == 'predict']['unscaled'].values.astype(np.float)
-        self.actual = data.loc[data['key'] == 'actual']['unscaled'].values.astype(np.float)
+        self.predicted = data['predicted'].values.astype(np.float)
+        self.actual = data['y_test'].values.astype(np.float)
     
     def calculate_residuals(self, i):
         self.residuals.append(abs(self.actual[i] - self.predicted[i]))
 
-    def get_moving_average(self, x, N = 100):
+    def get_moving_average(self, x, N = 10):
         return pd.Series(x).rolling(window=N).mean().iloc[N-1:].values
 
     def get_best_residual_dist(self):
@@ -98,27 +96,12 @@ class AnomalyDetection():
         print(self)
 
     def tailProbability(self, x):
-        # if x < self.mean:
-        #     xp = 2 * self.mean - x
-        #     return self.tailProbability(xp)
         self.std = np.std(self.moving_average_residuals_window)
         self.mean = np.mean(self.moving_average_residuals_window)
 
         z = (x - self.mean) / self.std
         return 1.0 - 0.5 * math.erfc(z / np.sqrt(2))
-
-    def percentile(self, x, N = 0.9):
-        self.std = np.std(self.moving_average_residuals_window)
-        self.mean = np.mean(self.moving_average_residuals_window)
-
-        if x < self.mean:
-            xp = 2 * self.mean - x
-            return self.percentile(xp)
         
-        z = (x - self.mean) / self.std
-        return 1.0 - z / stats.norm.ppf(N)
-        
-
     def calculate_anomaly_likelihood_sg(self, i):
         anomaly_score = self.calculate_anomaly_score()
         
@@ -168,7 +151,7 @@ def run(anomaly_detection, anomaly_output, plot):
                 ax = anomaly_output.axs[2],
                 x = x,
                 y = [y1],
-                labels = ["Anomaly likelihood"],
+                labels = ["Anomaly score"],
                 y_lim = (0,1),
                 x_lim = (i - WINDOW_LENGTH, i)
             )
@@ -211,8 +194,7 @@ def probability_plot(x):
     ax.get_lines()[1].set_color('black')
     ax.vlines(x = 2.33, ymin = -10, ymax = 10, linestyles='dotted')
     ax.vlines(x = -2.33, ymin = -10, ymax = 10, linestyles='dotted')
-    # plt.ylim((-10, 10))
-    # stats.probplot(x, dist="norm", plot=plt, rvalue=True)
+
     plt.show()
 
 
@@ -221,9 +203,6 @@ def main(plot):
     anomaly_detection.read_from_file()
     anomaly_detection.build_residual_distribution()
     anomaly_detection.moving_average_residuals_window = anomaly_detection.calculate_moving_average_residuals()
-
-    # probability_plot(anomaly_detection.moving_average_residuals_window)
-    # return
 
     anomaly_output = None
     if plot:
