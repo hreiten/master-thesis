@@ -36,10 +36,10 @@ printf "\n\t*\tScreen name: $screen_name\t*"
 printf "\n\t*\tcomputer: $computer \t\t*\n\t*\t\t\t\t*\n\t*\t\t\t\t*"
 printf "\n\t*********************************\n\n"
 
-ssh -t $user@$ip \
-"cd $path; bash bash_scripts/create_screen.sh $screen_name; "\
-"bash bash_scripts/activate_venv.sh $screen_name; "\
-"bash bash_scripts/open_jupyter.sh $screen_name $port; "\
+sshpass -e ssh -t $user@$ip \
+"cd $path; bash shell-scripts/bash/create_screen.sh $screen_name; "\
+"bash shell-scripts/bash/activate_venv.sh $screen_name; "\
+"bash shell-scripts/bash/open_jupyter.sh $screen_name $port; "\
 "exit; "\
 
 bash jupyter_tunnel.sh $port $ip
