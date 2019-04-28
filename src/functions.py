@@ -63,3 +63,18 @@ def get_stats_properties(data, include_nans=True):
         stat_cols.append("NAs")
         
     return pd.DataFrame(np.array(stats_matr).T, index=data.columns, columns=stat_cols)
+
+def split_dataset(data, target_idxs=range(3)):
+    """
+    Splits a numpy dataset into features and targets.
+    
+    Args: 
+        data (np.ndarray): Full dataset including targets and features
+        target_idxs (list): Indices of targets
+        
+    Returns: 
+        (np.ndarray, np.ndarray): Tuple with X and y.
+    """
+    X = np.delete(data,target_idxs,axis=1)
+    y = data[:,target_idxs]
+    return X, y
