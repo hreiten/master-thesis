@@ -64,17 +64,23 @@ def get_stats_properties(data, include_nans=True):
         
     return pd.DataFrame(np.array(stats_matr).T, index=data.columns, columns=stat_cols)
 
-def split_dataset(data, target_idxs=range(3)):
+def split_dataset(data, target_idxs=range(3), delay=None):
     """
     Splits a numpy dataset into features and targets.
     
     Args: 
         data (np.ndarray): Full dataset including targets and features
-        target_idxs (list): Indices of targets
+        target_idxs (list=[1,2,3]): Indices of targets
+        delay (int=None): Number of time steps to lag the data
         
     Returns: 
         (np.ndarray, np.ndarray): Tuple with X and y.
     """
     X = np.delete(data,target_idxs,axis=1)
     y = data[:,target_idxs]
+    
+    if delay: 
+        X = X[:-delay]
+        y = y[delay:]
+        
     return X, y
