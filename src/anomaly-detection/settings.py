@@ -2,10 +2,11 @@ UPPER_ANOMALY_THRESHOLD = 0.90
 LOWER_ANOMALY_THRESHOLD = 1.0 - UPPER_ANOMALY_THRESHOLD
 NUM_AVERAGED_ANOMALY_SCORES = 5
 WINDOW_LENGTH = 50
-INPUT_FILE_PATH_TRAIN = '../../data/bsts_prediction_train.csv'
-INPUT_FILE_PATH_TEST = '../../data/bsts_prediction_test.csv'
-MIN_NUMBER_OF_RESIDUALS = 1000
-START = 5530
+INPUT_FILE_PATH_TRAIN = '../../data/anomaly/linear_model_train.csv'
+INPUT_FILE_PATH_TEST = '../../data/anomaly/linear_model_test.csv'
+MODEL_PATH = '/models/linear/linear_model.sav'
+MIN_NUMBER_OF_RESIDUALS = 900
+START = 1000
 DEFAULT_BEST_DIST = "norm"
 ALPHA = 1E-3
 
