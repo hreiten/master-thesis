@@ -94,13 +94,16 @@ def load_data(dummy_data=False, dummy_obs=5000):
         df_train = pd.read_pickle(path + "df_selected_train.pkl")
         df_valid = pd.read_pickle(path + "df_selected_valid.pkl")
         df_test = pd.read_pickle(path + "df_selected_test.pkl")
+        df_anomaly = pd.read_pickle(path + "df_selected_anomaly_07-18.pkl")
+        
     else: 
         path = root_path + "data/dummy/"
         df_train = pd.read_pickle(path + "dummy_train_{0}.pkl".format(dummy_obs))
         df_valid = pd.read_pickle(path + "dummy_valid_{0}.pkl".format(dummy_obs))
         df_test = pd.read_pickle(path + "dummy_test_{0}.pkl".format(dummy_obs))
+        df_anomaly = []
     
-    return df_train, df_valid, df_test
+    return df_train, df_valid, df_test, df_anomaly
     
 def load_metadata():
     root_path = os.path.abspath(".").split("src")[0]
@@ -111,5 +114,6 @@ def load_metadata():
     ts_train = np.load(path + "timestamps/ts_train.npy")
     ts_valid = np.load(path + "timestamps/ts_valid.npy")
     ts_test = np.load(path + "timestamps/ts_test.npy")
+    ts_anomaly = np.load(path + "timestamps/dtimestamps_anomaly_07-18.npy")
     
-    return stats, ts, ts_train, ts_valid, ts_test
+    return stats, ts, ts_train, ts_valid, ts_test, ts_anomaly
