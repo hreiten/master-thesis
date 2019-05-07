@@ -137,4 +137,34 @@ def plot_multiple_predictions(model, x_data, y_data, time_vec, target_tags,
         plt.ylabel(target_tags[signal])
         plt.legend(frameon=True)
         plt.show()
+        
+def get_df_from_dicts(dicts, columns, index, texpath=None, round_digits=4):
+    """
+    Will make a dataframe with error metrics for each target tag out of a collection of dictionaries 
+    as obtained by evaluate_model(). The model names will be collected as indexes in the dataframe, and the 
+    target errors in the columns. 
+    """
     
+    val_maes = []
+    test_maes = []
+    for d in dicts:
+        tmp_mae_val = [round(float(digit),round_digits) for digit in d['validation']['df']['MAE (std)'].tolist()]
+        tmp_mae_test = [round(float(digit),round_digits) for digit in d['test']['df']['MAE (std)'].tolist()]
+
+        val_maes.append(tmp_mae_val)
+        test_maes.append(tmp_mae_test)
+
+    # make df
+    df_val = pd.DataFrame(np.vstack(val_maes), index=index, columns=columns)
+    df_test = pd.DataFrame(np.vstack(test_maes), index=index, columns=columns)
+    df_summary = pd.concat([df_val, df_test], axis=1, keys=["Validation", "Test"])
+
+    tex = df_summary.to_latex(column_format="l" + "c"*(len(columns)*2),
+                              multicolumn=True, 
+                              multicolumn_format='c', 
+                              bold_rows=True)
+    if texpath is not None: 
+        with open(texpath) as f:
+            f.write(tex)
+
+    return df_summary, tex

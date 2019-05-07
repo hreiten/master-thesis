@@ -1,6 +1,7 @@
 import sys, os
 import numpy as np
 import pandas as pd
+import pickle
 
 """
 Script that defines helper functions that should be globally available to all notebooks. 
@@ -113,3 +114,18 @@ def load_metadata():
     ts_test = np.load(path + "timestamps/ts_test.npy")
     
     return stats, ts, ts_train, ts_valid, ts_test
+
+
+def save_pickle(obj, fpath ):
+    if not ".pkl" in fpath:
+        fpath += ".pkl"
+    
+    with open(fpath, 'wb') as f:
+        pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
+
+def load_pickle(fpath ):
+    if not ".pkl" in fpath:
+        fpath += ".pkl"
+        
+    with open(fpath, 'rb') as f:
+        return pickle.load(f)
