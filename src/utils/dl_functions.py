@@ -29,13 +29,13 @@ def plot_history(history, savepath=None):
 
     
 
-def predict_with_model(model, x_data, y_data, n_predictions=50):
+def predict_with_model(model, x_data, y_data, n_predictions=50, input_dim=3):
     """
     Makes multiple predicitons with a model and returns mean and std of each prediction
     """
     
     x = x_data
-    if len(x_data.shape) < 3:
+    if len(x_data.shape) < 3 and input_dim==3:
         x = np.expand_dims(x_data, axis=0)
     
     n_obs, n_targets = y_data.shape
@@ -43,7 +43,9 @@ def predict_with_model(model, x_data, y_data, n_predictions=50):
     err_matr = np.zeros((n_predictions,n_targets))  # (n_pred, num_targets) - one error per target per run
 
     for it in range(n_predictions):
-        preds = model.predict(x)[0]
+        preds = model.predict(x)
+        if len(preds.shape) == 3 and input_dim == 3:
+            preds = preds[0]
         errs = MAE(y_data, preds, vector=True)
         
         preds_matr[it] = preds
@@ -63,10 +65,9 @@ def load_keras_model(model_folder):
     
     return model
 
-def get_model_maes(model, x_data, y_data, target_stds, n_predictions=50):
+def get_model_maes(model, x_data, y_data, target_stds, n_predictions=50, input_dim=3):
     
-    
-    mean_preds, std_preds, pred_dict = predict_with_model(model, x_data, y_data, n_predictions)
+    mean_preds, std_preds, pred_dict = predict_with_model(model, x_data, y_data, n_predictions, input_dim)
     expected_mean = np.mean(mean_preds, axis=0)
     expected_std = np.mean(std_preds, axis=0) 
     maes = np.mean(pred_dict['loss_matr'], axis=0)
@@ -92,12 +93,12 @@ def get_model_maes(model, x_data, y_data, target_stds, n_predictions=50):
     return return_dict
 
 def plot_multiple_predictions(model, x_data, y_data, time_vec, target_tags, 
-                              start_idx=0, n_obs=200, n_predictions=50, plotCI=False):
+                              start_idx=0, n_obs=200, n_predictions=50, plotCI=False, input_dim=3):
     """
     Plots multiple predictions of a RNN
     """
     
-    mean_preds, std_preds, pred_dict = predict_with_model(model, x_data, y_data, n_predictions)
+    mean_preds, std_preds, pred_dict = predict_with_model(model, x_data, y_data, n_predictions, input_dim)
     preds_matr = pred_dict['pred_matr']
     
     n_targets = y_data.shape[-1]
@@ -168,3 +169,52 @@ def get_df_from_dicts(dicts, columns, index, texpath=None, round_digits=4):
             f.write(tex)
 
     return df_summary, tex
+
+def get_uncertainty_df_from_dicts(dicts, columns, index, levels, texpath=None, round_digits=4):
+    """
+    Will make a dataframe with uncertainty and error metrics for each target tag out of a collection of dictionaries 
+    as obtained by evaluate_model().
+    """
+    
+    dataframes = []
+    for d in dicts:
+        df = d['validation']
+        avg_maes = [round(float(digit),round_digits) for digit in df['df']['MAE (std)'].tolist()]
+        exp_means = [round(float(digit),round_digits) for digit in df['df']['Expect. Mean'].tolist()]
+        exp_stds = [round(float(digit),round_digits) for digit in df['df']['Expect. Stdev'].tolist()]
+        df_1 = pd.DataFrame(np.column_stack([avg_maes, exp_means, exp_stds]), index = levels, columns = columns)
+
+        df = d['test']
+        avg_maes = [round(float(digit),round_digits) for digit in df['df']['MAE (std)'].tolist()]
+        exp_means = [round(float(digit),round_digits) for digit in df['df']['Expect. Mean'].tolist()]
+        exp_stds = [round(float(digit),round_digits) for digit in df['df']['Expect. Stdev'].tolist()]
+        df_2 = pd.DataFrame(np.column_stack([avg_maes, exp_means, exp_stds]), index = levels, columns = columns)
+        df_concat = pd.concat([df_1, df_2], axis=1, keys=["Validation", "Test"])
+        dataframes.append(df_concat)
+    
+    summary_df = pd.concat(dataframes, axis=0, keys=index)
+    
+    tex = summary_df.to_latex(column_format="ll" + "c"*(len(columns)*2),
+                              multicolumn=True, 
+                              multicolumn_format='c',
+                              multirow=True,
+                              bold_rows=True)
+
+    if texpath is not None: # save the file
+        with open(texpath, 'w+') as f:
+            f.write(tex)
+    
+    return summary_df, tex
+
+def evaluate_trained_model(model, valid_tup, test_tup, target_stds, n_pred=300, input_dim=3):
+    val_dict = get_model_maes(model, valid_tup[0], valid_tup[1], 
+                              target_stds, n_predictions=n_pred, input_dim=input_dim)
+    test_dict = get_model_maes(model, test_tup[0], test_tup[1], 
+                               target_stds, n_predictions=n_pred, input_dim=input_dim)
+    
+    return_dict = {
+        'validation': val_dict,
+        'test': test_dict
+    }
+    
+    return return_dict
