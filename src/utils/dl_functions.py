@@ -56,6 +56,34 @@ def predict_with_model(model, x_data, y_data, n_predictions=50, input_dim=3):
     
     return mean_predictions, std_of_predictions, {'pred_matr': preds_matr, 'loss_matr': err_matr}
 
+def predict_with_ensemble(linear_model, lstm_model, mlp_model, X, y, n_pred=50, return_pred_matr=False):
+    # predict with lstm
+    lstm_means, lstm_stds, lstm_dict = predict_with_model(lstm_model, X, y, 
+                                                          n_predictions=n_pred, 
+                                                          input_dim=3)
+    lstm_preds = lstm_dict['pred_matr']
+
+    mlp_means, mlp_stds, mlp_dict = predict_with_model(mlp_model, X, y, 
+                                                       n_predictions=n_pred, 
+                                                       input_dim=2)
+    mlp_preds = mlp_dict['pred_matr']
+
+    lm_preds_matrix = np.zeros(shape=lstm_preds.shape)
+    pred_stds = np.zeros(shape=lstm_preds[0].shape)
+    pred_means = np.zeros(shape=lstm_preds[0].shape)
+
+    for t in range(len(X)):
+        row_x = np.concatenate((lstm_preds[:,t,:], mlp_preds[:,t,:]), axis=1)
+        pred = linear_model.predict(row_x)
+
+        lm_preds_matrix[:,t,:] = pred
+        pred_means[t,:] = np.mean(pred, axis=0)
+        pred_stds[t,:] = np.std(pred, axis=0)
+    
+    if return_pred_matr: 
+        return pred_means, pred_stds, lm_preds_matrix
+    return pred_means, pred_stds
+
 def load_keras_model(model_folder):
     """
     Loads a model
@@ -138,6 +166,47 @@ def plot_multiple_predictions(model, x_data, y_data, time_vec, target_tags,
         plt.ylabel(target_tags[signal])
         plt.legend(frameon=True)
         plt.show()
+        
+def plot_pred_matrix(preds_matr, x_data, y_data, time_vec, target_tags, 
+                              start_idx=500, n_obs=200, plotCI=False, z=1.645):
+        
+    n_targets = y_data.shape[-1]
+    n_iterations = preds_matr.shape[0]
+    
+    mean_preds = np.array([np.mean(preds_matr[:,:,i], axis=0) for i in range(n_targets)]).T
+    std_preds = np.array([np.std(preds_matr[:,:,i], axis=0) for i in range(n_targets)]).T
+    
+    start_idx = start_idx if start_idx < len(y_data) else max(0,len(y_data)-n_obs) 
+    end_idx = min(len(y_data),start_idx+n_obs)
+    interval = range(start_idx,end_idx)
+    
+    time = time_vec[interval]
+    
+    for signal in range(n_targets):
+        plt.figure()
+        if not plotCI: # then plot individual predictions 
+            for run in range(n_iterations):
+                preds = preds_matr[run, interval, signal]
+                plt.plot_date(time, preds, alpha=0.3, color="gray", markersize=0, linestyle="-")
+        else: 
+            # calculate upper and lower bounds
+            CI_low = np.subtract(mean_preds,std_preds*z)
+            CI_high = np.add(mean_preds,std_preds*z)
+            
+            # plot it
+            plt.fill_between(time,
+                             CI_low[interval,signal], 
+                             CI_high[interval,signal], 
+                             color="gray", alpha=0.5, label="CI (z={0})".format(z))
+        
+        plt.plot(time, mean_preds[interval, signal], c="darkblue", lw=1.5, ls="-", ms=0, 
+                 label="Mean prediction")
+        plt.plot(time, y_data[interval, signal], c="darkred", lw=1.5, ls="-", ms=0, 
+                 label="True")
+        plt.ylabel(target_tags[signal])
+        plt.legend(frameon=True)
+        plt.show()
+    
         
 def get_df_from_dicts(dicts, columns, index, texpath=None, round_digits=4):
     """
