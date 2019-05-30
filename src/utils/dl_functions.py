@@ -56,33 +56,55 @@ def predict_with_model(model, x_data, y_data, n_predictions=50, input_dim=3):
     
     return mean_predictions, std_of_predictions, {'pred_matr': preds_matr, 'loss_matr': err_matr}
 
-def predict_with_ensemble(linear_model, lstm_model, mlp_model, X, y, n_pred=50, return_pred_matr=False):
-    # predict with lstm
+def predict_with_ensemble(linear_model, lstm_model, mlp_model, X, y, n_pred=50, 
+                          return_predictions_matrix=False,return_stds=False,model_mses=[]):
+    """
+    Predict with the ensemble model, given a linear model, lstm model and MLP model.
+    The linear model takes as inputs the predictions of the LSTM and MLP model. 
+    This method will first make predictions with the LSTM and MLP model, then feed it to 
+    the linear model that makes the final prediciton.
+    """
+    
+    # Predict B times with the LSTM model and extract the predictions matrix
     lstm_means, lstm_stds, lstm_dict = predict_with_model(lstm_model, X, y, 
-                                                          n_predictions=n_pred, 
-                                                          input_dim=3)
+                                                          n_predictions=n_pred, input_dim=3)
     lstm_preds = lstm_dict['pred_matr']
 
+    # Predict B times with the MLP model and extract the predictions matrix
     mlp_means, mlp_stds, mlp_dict = predict_with_model(mlp_model, X, y, 
-                                                       n_predictions=n_pred, 
-                                                       input_dim=2)
+                                                       n_predictions=n_pred, input_dim=2)
     mlp_preds = mlp_dict['pred_matr']
-
+    
+    # If uncertainty estimation is wanted
     lm_preds_matrix = np.zeros(shape=lstm_preds.shape)
-    pred_stds = np.zeros(shape=lstm_preds[0].shape)
+    pred_unc = np.zeros(shape=lstm_preds[0].shape)
     pred_means = np.zeros(shape=lstm_preds[0].shape)
-
+    pred_stds = np.zeros(shape=lstm_preds[0].shape)
+    
+    if len(model_mses)==0:
+        # set the MSEs to previously calculated validation scores
+        model_mses = [0.59492895, 0.09677962, 0.27542952] 
+    
+    # Make a prediction with the linear model for each of the rows in X. 
+    # To find uncertainty-measurements, we predict with the linear model B times for each input. 
+    # The standard deviance of the resulting predictions vector is then extracted empirically. 
     for t in range(len(X)):
         row_x = np.concatenate((lstm_preds[:,t,:], mlp_preds[:,t,:]), axis=1)
         pred = linear_model.predict(row_x)
 
         lm_preds_matrix[:,t,:] = pred
         pred_means[t,:] = np.mean(pred, axis=0)
-        pred_stds[t,:] = np.std(pred, axis=0)
+        stds = np.std(pred, axis=0)
+        pred_unc[t,:] = np.sqrt(stds**2 + model_mses)
+        pred_stds[t,:] = stds
     
-    if return_pred_matr: 
-        return pred_means, pred_stds, lm_preds_matrix
-    return pred_means, pred_stds
+    if return_predictions_matrix:
+        return pred_means, pred_unc, lm_preds_matrix
+    
+    if return_stds: 
+        return pred_means, pred_unc, pred_stds, model_mses
+    
+    return pred_means, pred_unc
 
 def load_keras_model(model_folder):
     """
@@ -167,17 +189,16 @@ def plot_multiple_predictions(model, x_data, y_data, time_vec, target_tags,
         plt.legend(frameon=True)
         plt.show()
         
-def plot_pred_matrix(preds_matr, x_data, y_data, time_vec, target_tags, 
-                              start_idx=500, n_obs=200, plotCI=False, z=1.645):
+def plot_pred_matrix(preds_matr, tot_uncertainty, y_data, time_vec, 
+                     target_tags, start_idx=500, n_obs=200, plotCI=False, z=1.645):
         
-    n_targets = y_data.shape[-1]
-    n_iterations = preds_matr.shape[0]
+    n_iterations, n_rows, n_targets = preds_matr.shape
     
     mean_preds = np.array([np.mean(preds_matr[:,:,i], axis=0) for i in range(n_targets)]).T
-    std_preds = np.array([np.std(preds_matr[:,:,i], axis=0) for i in range(n_targets)]).T
+    std_preds = tot_uncertainty
     
-    start_idx = start_idx if start_idx < len(y_data) else max(0,len(y_data)-n_obs) 
-    end_idx = min(len(y_data),start_idx+n_obs)
+    start_idx = start_idx if start_idx < n_rows else max(0,n_rows-n_obs) 
+    end_idx = min(n_rows,start_idx+n_obs)
     interval = range(start_idx,end_idx)
     
     time = time_vec[interval]
@@ -201,8 +222,8 @@ def plot_pred_matrix(preds_matr, x_data, y_data, time_vec, target_tags,
         
         plt.plot(time, mean_preds[interval, signal], c="darkblue", lw=1.5, ls="-", ms=0, 
                  label="Mean prediction")
-        plt.plot(time, y_data[interval, signal], c="darkred", lw=1.5, ls="-", ms=0, 
-                 label="True")
+        plt.plot(time, y_data[interval, signal], c="darkgreen", lw=1.5, ls="-", ms=0, 
+                 label="Actual")
         plt.ylabel(target_tags[signal])
         plt.legend(frameon=True)
         plt.show()
