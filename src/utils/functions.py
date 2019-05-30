@@ -7,6 +7,12 @@ import pickle
 Script that defines helper functions that should be globally available to all notebooks. 
 """
 
+def MSE(targets, predictions, vector=True):
+    if vector: 
+         return np.mean(np.square(targets-predictions), axis=0)
+            
+    return np.mean(np.square(targets-predictions))
+
 def RMSE(targets, predictions):
     """
     Calculates the root mean squared error between numpy vectors/matrices
@@ -14,6 +20,7 @@ def RMSE(targets, predictions):
     Args: 
         targets (np.ndarray): A matrix/vector of true targets
         predictions (np.ndarray): A numpy array of vector predictions
+        mse (bool): If the resutls should be root or not
     
     Returns: 
         float: The RMSE score
