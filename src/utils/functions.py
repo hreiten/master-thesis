@@ -113,9 +113,6 @@ def load_data(dummy_data=False, return_anomaly=False, dummy_obs=5000):
         df_train = pd.read_pickle(path + "df_selected_train.pkl")
         df_valid = pd.read_pickle(path + "df_selected_valid.pkl")
         df_test = pd.read_pickle(path + "df_selected_test.pkl")
-        df_anomaly_12_12 = pd.read_pickle(path + "df_anomaly_12-18_12-18.pkl")
-        df_anomaly_07_07 = pd.read_pickle(path + "df_anomaly_07-18_07-18.pkl")
-        df_anomaly_10_10 = pd.read_pickle(path + "df_anomaly_04-18_04-18.pkl")
         
     else: 
         path = root_path + "data/dummy/"
@@ -125,6 +122,9 @@ def load_data(dummy_data=False, return_anomaly=False, dummy_obs=5000):
         df_anomaly = []
     
     if (return_anomaly):
+        df_anomaly_12_12 = pd.read_pickle(path + "df_anomaly_12-18_12-18.pkl")
+        df_anomaly_07_07 = pd.read_pickle(path + "df_anomaly_07-18_07-18.pkl")
+        df_anomaly_10_10 = pd.read_pickle(path + "df_anomaly_04-18_04-18.pkl")
         return df_train, df_valid, df_test, df_anomaly_12_12, df_anomaly_10_10, df_anomaly_07_07
     
     return df_train, df_valid, df_test
@@ -138,11 +138,11 @@ def load_metadata(return_anomaly = False):
     ts_train = np.load(path + "timestamps/ts_train.npy")
     ts_valid = np.load(path + "timestamps/ts_valid.npy")
     ts_test = np.load(path + "timestamps/ts_test.npy")
-    ts_anomaly_12_12 = np.load(path + "timestamps/dtimestamps_anomaly_12-18_12-18.npy")
-    ts_anomaly_10_10 = np.load(path + "timestamps/dtimestamps_anomaly_04-18_04-18.npy")
-    ts_anomaly_07_07 = np.load(path + "timestamps/dtimestamps_anomaly_07-18_07-18.npy")
     
     if (return_anomaly):
+        ts_anomaly_12_12 = np.load(path + "timestamps/dtimestamps_anomaly_12-18_12-18.npy")
+        ts_anomaly_10_10 = np.load(path + "timestamps/dtimestamps_anomaly_04-18_04-18.npy")
+        ts_anomaly_07_07 = np.load(path + "timestamps/dtimestamps_anomaly_07-18_07-18.npy")
         return stats, ts, ts_train, ts_valid, ts_test, ts_anomaly_12_12, ts_anomaly_10_10, ts_anomaly_07_07
     
     return stats, ts, ts_train, ts_valid, ts_test
@@ -161,3 +161,43 @@ def load_pickle(fpath ):
         
     with open(fpath, 'rb') as f:
         return pickle.load(f)
+    
+def color_palette():
+    c_blue_med = "#053B89"
+    c_blue_dark = "#072159"
+    c_blue_light = "#1261A0"
+    c_red = "#BE0209"
+    c_red_light = "#e2514a"
+    c_orange = "#E96F36"
+    c_orange_light = "#fca55d"
+    c_gray = "#282739"
+    
+    colors = {"blue_dark": "#072159",
+              "blue_med": "#053B89",
+              "blue_light": "#1261A0",
+              "red": "#BE0209",
+              "red_light": "#e2514a",
+              "orange": "#E96F36",
+              "orange_light": "#fca55d",
+              "gray": "#282739"}
+    palette = [c_blue_dark, c_blue_med, c_blue_light, c_red, c_red_light, c_orange, c_orange_light, c_gray]
+    return colors, palette
+
+def latexify(df):
+    """
+    Returns the latex table (string) of a pandas dataframe
+    """
+    
+    multirow = type(df.index) == pd.core.indexes.multi.MultiIndex
+    multicolumn = type(df.columns) == pd.core.indexes.multi.MultiIndex
+    
+    col_format = "ll" if multirow else "l"
+    col_format += "c"*len(df.columns.levels[1])*2 if multicolumn else "c"*len(df.columns)
+    
+    tex = df.to_latex(column_format=col_format,
+                      multicolumn=multicolumn, 
+                      multicolumn_format='c',
+                      multirow=multirow,
+                      bold_rows=True)
+    
+    return tex
