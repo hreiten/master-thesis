@@ -122,10 +122,10 @@ def load_data(dummy_data=False, return_anomaly=False, dummy_obs=5000):
         df_anomaly = []
     
     if (return_anomaly):
-        df_anomaly_12_12 = pd.read_pickle(path + "df_anomaly_12-18_12-18.pkl")
-        df_anomaly_07_07 = pd.read_pickle(path + "df_anomaly_07-18_07-18.pkl")
-        df_anomaly_10_10 = pd.read_pickle(path + "df_anomaly_04-18_04-18.pkl")
-        return df_train, df_valid, df_test, df_anomaly_12_12, df_anomaly_10_10, df_anomaly_07_07
+        anomaly_april = pd.read_pickle(path + "anomaly_april.pkl")
+        anomaly_july = pd.read_pickle(path + "anomaly_july.pkl")
+        anomaly_december = pd.read_pickle(path + "anomaly_december.pkl")
+        return df_train, df_valid, df_test, anomaly_april, anomaly_july, anomaly_december
     
     return df_train, df_valid, df_test
     
@@ -141,7 +141,7 @@ def load_metadata(return_anomaly = False):
     
     if (return_anomaly):
         ts_anomaly_12_12 = np.load(path + "timestamps/dtimestamps_anomaly_12-18_12-18.npy")
-        ts_anomaly_10_10 = np.load(path + "timestamps/dtimestamps_anomaly_04-18_04-18.npy")
+        ts_anomaly_10_10 = np.load(path + "timestamps/dtimestamps_anomaly_10-18_10-18.npy")
         ts_anomaly_07_07 = np.load(path + "timestamps/dtimestamps_anomaly_07-18_07-18.npy")
         return stats, ts, ts_train, ts_valid, ts_test, ts_anomaly_12_12, ts_anomaly_10_10, ts_anomaly_07_07
     
