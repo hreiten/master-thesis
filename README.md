@@ -47,21 +47,18 @@ In total, there are more than 350 numerical time series for the subsystem of the
 
 The inputs to the model are a combination of input sensors and controls, while the outputs are the output sensors. For the sake of brevity, the process of selecting model inputs and outputs are not described here, but we perform a variety of feature selection techniques that results in a dataset containing 6 inputs and 3 outputs, shown in the figure below (blue circles are the tags used as model outputs). The interested reader is referred to the thesis for further details.
 
-<center>
+<p align="center">
 <img src="fig/overview-w-legend.png" alt="model-io" width="80%"/>
 
 <i>Tags selected as inputs (red and green) and outputs (blue) for the predictive model.</i>
 
-</center>
+</p>
 
-While the sampling rate of most of the selected sensors is on second-basis, implying 60 recordings per minute, we aggregate the measurements to one sample per minute by taking the average. We extract a two month window where the data looks continuosly normal (not interrupted by seemingly anomalous sequences), from 24th of December 2017 to the 24th of February 2018. This results in a dataset of 88685 observations of the 9 features. The dataset is split into a training set (60% of the data), a validation set (20%) and a test set (20%). Since we aim to build models that capture the temporal structure, we simply split this into three continuous intervals. This is shown in the below figure.
+While the sampling rate of most of the selected sensors is on second-basis, implying 60 recordings per minute, we aggregate the measurements to one sample per minute by taking the average. We extract a two month window where the data looks continuosly normal (not interrupted by seemingly anomalous sequences), from 24th of December 2017 to the 24th of February 2018. This results in a dataset of 88685 observations of the 9 features. The dataset is split into a training set (60% of the data), a validation set (20%) and a test set (20%). Since we aim to build models that capture the temporal structure, we simply split this into three continuous intervals. This is shown in the figure below.
 
-<center>
+<p align="center">
 <img src="fig/data_partitioned.png" alt="model-io" width="80%"/>
-
-_Training, validation and test splits of the dataset_
-
-</center>
+</p>
 
 All other preprocessing steps are described further in the thesis.
 
@@ -92,12 +89,12 @@ Some design choices were common for all implementations:
 
 For each of our final architectures we use the minimum validation loss (MVL) method to extract the best weights and evaluate the resulting performance. The final LSTM network consists of a single hidden layer with 128 nodes, and same with the GRU network. The final feed-forward network consists of a single hidden layer with 1024 nodes. The ensemble model combine the predictions of the LSTM network and the feed-forward neural network through a linear regression model, illustrated in the figure below.
 
-<center>
+<p align="center">
 <img src="fig/ensemble-illustration.png" alt="model-io" width="70%"/>
 
 _Illustration of the LSTM/MLP ensemble._
 
-</center>
+</p>
 
 ### Uncertainty assessment
 
@@ -108,12 +105,12 @@ The implemented neural networks are stochastic models as they apply dropout in e
 
 The aleatoric uncertainty is estimated by evaluating the residual sum of squeares of the model on the validation set. The epistemic uncertainty is estimated by evaluating the variance of $B$ predictions for an input point $x^*$, assuming a Gaussian distribution. The pseudocode below illustrates this.
 
-<center>
+<p align="center">
 <img src="fig/uncertainty-algorithm.png" alt="model-io" width="80%"/>
 
 _Training, validation and test splits of the dataset_
 
-</center>
+</p>
 
 ## Anomaly detection
 
@@ -121,23 +118,23 @@ _Training, validation and test splits of the dataset_
 
 This method identifies anomalies based on a comparison between the residual and a static residual distribution built on the validation set. For a new observation, a smoothed residual of the past $m$ residuals is calculated, and an anomaly score is computed by the tail probability that the smoothed residual comes from the residual distribution. Point anomalies are classified when the anomaly score is greater than a specified threshold.
 
-<center>
+<p align="center">
 <img src="fig/anomaly-method1.png" alt="model-io" width="80%"/>
 
 _Schematic of the residual based anomaly detection method_
 
-</center>
+</p>
 
 ### Prediction interval-based anomaly detection
 
 This approach exploits the fact that the predictive models are probabilistic, and utilizes the pointwise predictive distributions of the models to identify anomalies. A new observation is classified based on whether it is within the bounds of the 99%-confidence interval of the model.
 
-<center>
+<p align="center">
 <img src="fig/anomaly-method2.png" alt="model-io" width="80%"/>
 
 _Schematic of the prediction interval-based anomaly detection method_
 
-</center>
+</p>
 
 ### Evaluation
 
@@ -145,22 +142,31 @@ As the dataset lacks labeled regions of anomalies, and we had limited access to 
 
 ## Results
 
+### The predictive model
+
 We use the Mean Absolute Error as the loss function, and this metric is supplied for each model for each target. The overall performance is the average MAE across all targets on the test set. Only the best deep learning model compared to the best benchmarks for each respective target is supplied in this brief summary. For full results, please refer to the thesis.
 
-We found the best overall model to be the ensemble model, denoted _LSTM/MLP_. This model is compared to the best benchmark for each target.
+We found the best overall model to be the ensemble model, denoted _LSTM/MLP_, combining the predictions of the LSTM and MLP through a linear regression model. This model is compared to the best benchmark for each target in the table below
 
-\begin{table}[h]
-\centering
-\begin{tabular}{llccc}
-\toprule
-\textbf{Objective} & \textbf{Best Benchmark} & \makecell{\textbf{Benchmark}\\\textbf{MAE}} & \makecell{\textbf{LSTM/MLP}\\\textbf{MAE}} & \textbf{Improvement (\%)} \\
-\midrule
-FT & GBM & 0.5904 & 0.5123 & 13.23\% \\
-TT & Predict previous & 0.1830 & 0.2264 & -23.72\%\\
-PT & ElNet Regression & 0.4905 & 0.3862 & 21.26\%\\
-Overall & Linear Regression & 0.4530 & 0.3749 & 17.24\%\\
-\bottomrule
-\end{tabular}
-\caption[Comparison of best benchmark models to best deep learning model]{Best benchmarks compared to the best deep learning model - the LSTM/MLP ensemble - in predicting each target.}
-\label{tab:deep-learning-benchmarked}
-\end{table}
+| Target      | Best benchmark (BM)        | BM MAE | LSTM/MLP MAE | Improvement |
+| :---------- | :------------------------- | :----: | :----------: | :---------: |
+| Flow        | GBM                        | 0.590  |    0.512     |    13.2%    |
+| Temperature | Predict Previous Heuristic | 0.183  |    0.226     |   -23.7%    |
+| Pressure    | ElNet Regression           | 0.491  |    0.386     |    21.3%    |
+| Overall     | OLS Linear Regression      | 0.453  |    0.375     |    17.2%    |
+
+We see a 17.2% relative improvement of the ensemble model compared to the overall best benchmark. The below figure shows the uncertainty of the LSTM/MLP in practice, where the gray lines represent stochastic realizations of the model.
+
+<p align="center">
+<img src="fig/temperature_predictions.png" alt="model-io" width="80%"/>
+</p>
+
+### Anomaly detection
+
+We apply both proposed anomaly detection methods to three hand-picked datasets, but we only present the results of one of these on one dataset in this brief summary. The figure below demonstrates the residual based method on a dataset in April 2017 for the discharge temperature.
+
+<p align="center">
+<img src="fig/residual_april.png" alt="model-io" width="80%"/>
+</p>
+
+For in-depth discussions on the results, please refer to the thesis.
