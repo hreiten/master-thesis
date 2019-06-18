@@ -29,7 +29,6 @@ A precise predictive model is imperative for the success of such anomaly detecti
 
 With the predictive models and uncertainty assessment techniques in place, the second part of a model-based anomaly detection algorithm is a logic that compares the predicted values to the true observed measurements to classify novelties. A major part of this thesis is concerned with _how_ and _when_ the algorithm should alert for anomalous behavior.
 
----
 
 ---
 
@@ -41,9 +40,9 @@ The data used in this thesis originates from a gas compressor operating on an oi
 
 In total, there are more than 350 numerical time series for the subsystem of the compressor that are available. They can effectively be separated into three main categories:
 
-- **Input sensors**: Sensors placed exclusively upstream of the compressor. Sampled on a second basis.
+- **Input sensors**: Sensors placed exclusively upstream of the compressor. Sampled every second.
 - **Controls**: Control parameters of the system, such as engine running speed, valve openings and power supplied to the compressor. Typically 2 - 60 measurements per minute.
-- **Output sensors**: Sensors placed directly downstream of the compressor, measuring the physical parameters of the compressed gas (mass flow, temperature and pressure). Samples on a second basis.
+- **Output sensors**: Sensors placed directly downstream of the compressor, measuring the physical parameters of the compressed gas (mass flow, temperature and pressure). Sampled every second.
 
 The inputs to the model are a combination of input sensors and controls, while the outputs are the output sensors. For the sake of brevity, the process of selecting model inputs and outputs are not described here, but we perform a variety of feature selection techniques that results in a dataset containing 6 inputs and 3 outputs, shown in the figure below (blue circles are the tags used as model outputs). The interested reader is referred to the thesis for further details.
 
@@ -98,25 +97,24 @@ _Illustration of the LSTM/MLP ensemble._
 
 ### Uncertainty assessment
 
-The implemented neural networks are stochastic models as they apply dropout in every layer in the prediction phase (in addition to the training phase). Each prediction of the model can be seen as a stochastic realization of the predictive distribution. For any input to a model, we are interested in the predictive mean, $\hat y_t^{*}, and the predictive uncertainty, $\eta_t\$. The point-wise predictive uncertainty can be decomposed into two components:
+The implemented neural networks are stochastic models as they apply dropout in every layer in the prediction phase (in addition to the training phase). Each prediction of the model can be seen as a stochastic realization of the predictive distribution. For any input to a model, we are interested in the predictive mean, μ, and the predictive uncertainty, η. The point-wise predictive uncertainty can be decomposed into two components:
 
 1. The aleatoric uncertainty, which is the inherent noise in the data
 2. The epistemic uncertainty, capturing our ignorance with regards to the specification of model parameters. Often referred to as _model uncertainty_.
 
-The aleatoric uncertainty is estimated by evaluating the residual sum of squeares of the model on the validation set. The epistemic uncertainty is estimated by evaluating the variance of $B$ predictions for an input point $x^*$, assuming a Gaussian distribution. The pseudocode below illustrates this.
+The aleatoric uncertainty is estimated by evaluating the residual sum of squeares of the model on the validation set. The epistemic uncertainty is estimated by evaluating the variance of _B_ predictions for an input point _x_, assuming a Gaussian distribution. The pseudocode below illustrates this.
 
 <p align="center">
 <img src="fig/uncertainty-algorithm.png" alt="model-io" width="80%"/>
-
-_Training, validation and test splits of the dataset_
-
 </p>
+
+---
 
 ## Anomaly detection
 
 ### Residual based anomaly detection
 
-This method identifies anomalies based on a comparison between the residual and a static residual distribution built on the validation set. For a new observation, a smoothed residual of the past $m$ residuals is calculated, and an anomaly score is computed by the tail probability that the smoothed residual comes from the residual distribution. Point anomalies are classified when the anomaly score is greater than a specified threshold.
+This method identifies anomalies based on a comparison between the residual and a static residual distribution built on the validation set. For a new observation, a smoothed residual of the past _m_ residuals is calculated, and an anomaly score is computed by the tail probability that the smoothed residual comes from the residual distribution. Point anomalies are classified when the anomaly score is greater than a specified threshold.
 
 <p align="center">
 <img src="fig/anomaly-method1.png" alt="model-io" width="80%"/>
@@ -140,6 +138,8 @@ _Schematic of the prediction interval-based anomaly detection method_
 
 As the dataset lacks labeled regions of anomalies, and we had limited access to experts, the models were evaluated based on a more intuitive approach. The methods are demonstrated on hand-picked datasets that exhibit clear abnormal patterns, and we assess the quality of the methods based on whether they can identify the unusual patterns. Thus, the effectiveness of the methods are based on subjective expectations to where any good anomaly detection algorithm would classify abnormal behaviour.
 
+---
+
 ## Results
 
 ### The predictive model
@@ -158,7 +158,7 @@ We found the best overall model to be the ensemble model, denoted _LSTM/MLP_, co
 We see a 17.2% relative improvement of the ensemble model compared to the overall best benchmark. The below figure shows the uncertainty of the LSTM/MLP in practice, where the gray lines represent stochastic realizations of the model.
 
 <p align="center">
-<img src="fig/temperature_predictions.png" alt="model-io" width="80%"/>
+<img src="fig/temperature_predictions.png" alt="model-io" width="100%"/>
 </p>
 
 ### Anomaly detection
@@ -166,7 +166,9 @@ We see a 17.2% relative improvement of the ensemble model compared to the overal
 We apply both proposed anomaly detection methods to three hand-picked datasets, but we only present the results of one of these on one dataset in this brief summary. The figure below demonstrates the residual based method on a dataset in April 2017 for the discharge temperature.
 
 <p align="center">
-<img src="fig/residual_april.png" alt="model-io" width="80%"/>
+<img src="fig/residual_april.png" alt="model-io" width="100%"/>
 </p>
+
+Both for this example and for the other datasets, we find that the performance of the anomaly detection methods are highly satisfactory in the sense that they classify anomalies where we expect them to. The deep learning model works excellently in conjunction with the proposed methods, where it is highly accurate when the data is seemingly normal, but inaccurate otherwise.
 
 For in-depth discussions on the results, please refer to the thesis.
