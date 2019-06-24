@@ -1,22 +1,30 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import matplotlib.ticker as ticker
 import seaborn as sns
 from tabulate import tabulate
 import keras
 
-from functions import MAE
+from functions import MAE, color_palette
+
+# get color codes
+c, p = color_palette()
 
 def plot_history(history, savepath=None):    
     """
     Plots the training and validation loss history of the model in the training phase.
+    
+    Args: 
+        history (dict): history obtained by 
     """
     
     epochs = history.epoch
 
     train_mae = history.history['loss']
     val_mae = history.history['val_loss']
-
+    
     plt.figure()
     plt.plot(epochs, train_mae, marker='o', markersize='3.0', label=r'Training loss', color="darkred")
     plt.plot(epochs, val_mae, marker='o', markersize='3.0', label=r'Validation loss', color="darkblue")  
@@ -189,44 +197,57 @@ def plot_multiple_predictions(model, x_data, y_data, time_vec, target_tags,
         plt.legend(frameon=True)
         plt.show()
         
-def plot_pred_matrix(preds_matr, tot_uncertainty, y_data, time_vec, 
-                     target_tags, start_idx=500, n_obs=200, plotCI=False, z=1.645):
+def plot_pred_matrix(preds_matr, preds_uncertainties, y_data, time_vec, target_tags, 
+                     start_idx=12000, n_obs=200, plotCI=False, z=1.645):
         
-    n_iterations, n_rows, n_targets = preds_matr.shape
+    n_targets = y_data.shape[-1]
+    n_iterations = preds_matr.shape[0]
     
     mean_preds = np.array([np.mean(preds_matr[:,:,i], axis=0) for i in range(n_targets)]).T
-    std_preds = tot_uncertainty
+    std_preds = preds_uncertainties
     
-    start_idx = start_idx if start_idx < n_rows else max(0,n_rows-n_obs) 
-    end_idx = min(n_rows,start_idx+n_obs)
+    start_idx = start_idx if start_idx < len(y_data) else max(0,len(y_data)-n_obs) 
+    end_idx = min(len(y_data),start_idx+n_obs)
     interval = range(start_idx,end_idx)
     
     time = time_vec[interval]
     
     for signal in range(n_targets):
-        plt.figure()
+        
+        fig, ax = plt.subplots(1,1,figsize=(12,4), dpi=200)
+        ax.xaxis.set_major_locator(mdates.HourLocator())
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%d.%m %H:%M'))
+        
         if not plotCI: # then plot individual predictions 
-            for run in range(n_iterations):
+            #for run in range(n_iterations):
+            for run in range(min(80,n_iterations)):
                 preds = preds_matr[run, interval, signal]
-                plt.plot_date(time, preds, alpha=0.3, color="gray", markersize=0, linestyle="-")
+                ax.plot(time, preds, alpha=0.25, color="gray", markersize=0, linestyle="-")
         else: 
             # calculate upper and lower bounds
             CI_low = np.subtract(mean_preds,std_preds*z)
             CI_high = np.add(mean_preds,std_preds*z)
             
             # plot it
-            plt.fill_between(time,
+            ax.fill_between(time,
                              CI_low[interval,signal], 
                              CI_high[interval,signal], 
-                             color="gray", alpha=0.5, label="CI (z={0})".format(z))
+                             color="gray", alpha=0.3, label="CI (z={0})".format(z))
+            
+            ax.plot(time,CI_low[interval,signal], c="darkgray")
+            ax.plot(time,CI_high[interval,signal], c="darkgray")
         
-        plt.plot(time, mean_preds[interval, signal], c="darkblue", lw=1.5, ls="-", ms=0, 
+        ax.plot(time, mean_preds[interval, signal], c=c["red"], lw=2, ls="-", ms=0, 
                  label="Mean prediction")
-        plt.plot(time, y_data[interval, signal], c="darkgreen", lw=1.5, ls="-", ms=0, 
+        ax.plot(time, y_data[interval, signal], c=c["blue_med"], lw=2, ls="-", ms=0, 
                  label="Actual")
-        plt.ylabel(target_tags[signal])
-        plt.legend(frameon=True)
-        plt.show()
+        #plt.ylabel(target_tags[signal])
+        #plt.legend(frameon=True, loc="upper right")
+        #ax.legend(frameon=True)
+        ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1),
+                  fancybox=True, shadow=True, ncol=5, frameon=False)
+        
+        fig.show()
     
         
 def get_df_from_dicts(dicts, columns, index, texpath=None, round_digits=4):
