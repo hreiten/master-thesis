@@ -21,7 +21,7 @@ class DataPreprocessor:
         
         self.verbose=verbose
     
-    def read_data(self, tags, start, end, granularity, aggregates, timestamps=None):
+    def read_data(self, tags, start, end, granularity="1m", aggregates=["average"], timestamps=None):
         """
         Extract time series from the Cognite API for a list of tag names.
 
