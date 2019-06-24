@@ -3,11 +3,19 @@ import numpy as np
 import pandas as pd
 import pickle
 
-"""
-Script that defines helper functions that should be globally available to all notebooks. 
-"""
-
 def MSE(targets, predictions, vector=True):
+    """
+    Calculate the Mean Squared Error (MSE) between numpy vectors/matrices
+    
+    Args: 
+        targets (np.ndarray): A matrix/vector of true targets
+        predictions (np.ndarray): A numpy array of vector predictions
+        vector (bool=False): boolean stating if a vector of MAEs should be returned
+    
+    Returns: 
+        float: The mean squeared error.
+        
+    """
     if vector: 
          return np.mean(np.square(targets-predictions), axis=0)
             
@@ -79,7 +87,7 @@ def split_dataset(data, target_idxs=range(3), delay=None):
     
     Args: 
         data (np.ndarray): Full dataset including targets and features
-        target_idxs (list=[1,2,3]): Indices of targets
+        target_idxs (list=[0,1,2]): Indices of targets
         delay (int=None): Number of time steps to lag the data
         
     Returns: 
@@ -94,18 +102,19 @@ def split_dataset(data, target_idxs=range(3), delay=None):
         
     return X, y
 
-def load_year():
-    root_path = os.path.abspath(".").split("src")[0]
+def load_data(dummy_data=False, dummy_obs=5000):
+    """
+    Load training, validation and test dataframes
     
-    path = root_path + "data/dataframes/"
-    df_year = pd.read_pickle(path + "df_anomaly_03-18_12-18.pkl")
+    Args: 
+        dummy_data (bool=False): If dummy datasets should be returned
+        dummy_obs (int=5000): The size of the dummy dataset
     
-    path = root_path + "data/metadata/"
-    df_year_dt = np.load(path + "timestamps/dtimestamps_anomaly_03-18_12-18.npy")
+    Returns: 
+        (pd.DataFrame, pd.Dataframe, pd.Dataframe): training, validation and test dataframes. 
+    """
     
-    return df_year, df_year_dt
-
-def load_data(dummy_data=False, return_anomaly=False, dummy_obs=5000):
+    
     root_path = os.path.abspath(".").split("src")[0]
     
     if not dummy_data:
@@ -121,28 +130,47 @@ def load_data(dummy_data=False, return_anomaly=False, dummy_obs=5000):
         df_test = pd.read_pickle(path + "dummy_test_{0}.pkl".format(dummy_obs))
         df_anomaly = []
     
-    if return_anomaly:
-        anomaly_april = pd.read_pickle(path + "anomaly_april.pkl")
-        anomaly_july = pd.read_pickle(path + "anomaly_july.pkl")
-        anomaly_december = pd.read_pickle(path + "anomaly_december.pkl")
-        return df_train, df_valid, df_test, anomaly_april, anomaly_july, anomaly_december
-    
     return df_train, df_valid, df_test
     
-def load_metadata():
+def load_metadata(return_ts=False):
+    """
+    Load metadata
+    
+    Args: 
+        return_ts (bool=False): If timestamps should be returned
+        
+    Returns 
+        Scaling stats, target tags, feature tags and potentially timestamps. 
+    """
     root_path = os.path.abspath(".").split("src")[0]
     path = root_path + "data/metadata/"
     
     scaling_stats = pd.read_csv(path+"scaling_stats_selected.csv", index_col=0)
-    ts = np.load(path + "timestamps/dtimestamps.npy")
-    ts_train = np.load(path + "timestamps/ts_train.npy")
-    ts_valid = np.load(path + "timestamps/ts_valid.npy")
-    ts_test = np.load(path + "timestamps/ts_test.npy")
+    tags_targets = pd.read_csv(path+"tags/selected_tags_targets.csv")["Name"].values
+    tags_features = pd.read_csv(path+"tags/selected_tags_features.csv")["Name"].values
     
-    return scaling_stats, ts, ts_train, ts_valid, ts_test
+    if return_ts: 
+        ts = np.load(path + "timestamps/dtimestamps.npy")
+        ts_train = np.load(path + "timestamps/ts_train.npy")
+        ts_valid = np.load(path + "timestamps/ts_valid.npy")
+        ts_test = np.load(path + "timestamps/ts_test.npy")
+    
+        return scaling_stats, tags_targets, tags_features, ts, ts_train, ts_valid, ts_test
+    
+    return scaling_stats, tags_targets, tags_features
 
 
-def save_pickle(obj, fpath ):
+def save_pickle(obj, fpath):
+    """
+    Save any object as a .pkl file. 
+    
+    Args: 
+        obj (Any): Any python object
+        fpath (string): Path to file
+    
+    Returns: 
+        None
+    """
     if not ".pkl" in fpath:
         fpath += ".pkl"
     
@@ -150,6 +178,15 @@ def save_pickle(obj, fpath ):
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
 def load_pickle(fpath ):
+    """
+    Load a .pkl file
+    
+    Args: 
+        fpath (string): Path to file
+    
+    Returns: 
+        the loaded pickle
+    """
     if not ".pkl" in fpath:
         fpath += ".pkl"
         
@@ -157,6 +194,9 @@ def load_pickle(fpath ):
         return pickle.load(f)
     
 def color_palette():
+    """
+    Defines the color palettes used in the thesis. 
+    """
     c_blue_med = "#053B89"
     c_blue_dark = "#072159"
     c_blue_light = "#1261A0"
@@ -179,7 +219,13 @@ def color_palette():
 
 def latexify(df):
     """
-    Returns the latex table (string) of a pandas dataframe
+    Returns the latex table (string) of a pandas dataframe.
+    
+    Args: 
+        df (pandas.DataFrame): The dataframe 
+    
+    Return: 
+        string: Latex tabulate of the dataframe. 
     """
     
     multirow = type(df.index) == pd.core.indexes.multi.MultiIndex
