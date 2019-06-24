@@ -149,7 +149,7 @@ We use the Mean Absolute Error as the loss function, and this metric is supplied
 We found the best overall model to be the ensemble model, denoted _LSTM/MLP_, combining the predictions of the LSTM and MLP through a linear regression model. This model is compared to the best benchmark for each target in the table below
 
 | Target      | Best benchmark (BM)        | BM MAE | LSTM/MLP MAE | Improvement |
-| :---------- | :------------------------- | :----: | :----------: | :---------: |
+| :----------: | :-------------------------: | :----: | :----------: | :---------: |
 | Flow        | GBM                        | 0.590  |    0.512     |    13.2%    |
 | Temperature | Predict Previous Heuristic | 0.183  |    0.226     |   -23.7%    |
 | Pressure    | ElNet Regression           | 0.491  |    0.386     |    21.3%    |
