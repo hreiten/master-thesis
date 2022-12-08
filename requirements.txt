@@ -6,7 +6,7 @@ attrs==19.1.0
 backcall==0.1.0
 bleach==3.1.0
 Boruta==0.1.5
-certifi==2018.11.29
+certifi==2022.12.7
 cffi==1.12.2
 chardet==3.0.4
 cognite-logger==0.4.0
